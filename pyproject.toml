@@ -1,0 +1,22 @@
+[project]
+name = "llm-bench"
+version = "0.1.0"
+description = "LLM 추론·서빙 벤치마크 — 단계별 실습 레포"
+requires-python = ">=3.12"
+dependencies = [
+    "torch>=2.5.1",
+    "transformers>=4.47.0",
+    "accelerate>=1.0.0",
+    "bitsandbytes>=0.45.0",
+    "numpy>=2.0.0",
+    "pandas>=2.2.0",
+    "matplotlib>=3.9.0",
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu121"
+url = "https://download.pytorch.org/whl/cu121"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu121" }]

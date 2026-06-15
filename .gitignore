@@ -1,0 +1,36 @@
+# 로컬 전용 (공개 금지)
+miscellaneous/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.python-version
+
+# 모델 가중치 / 체크포인트 (용량 큼, 커밋 금지)
+*.safetensors
+*.bin
+*.gguf
+*.pt
+*.pth
+models/
+checkpoints/
+
+# 환경/비밀
+.env
+*.local
+
+# 노트북 체크포인트
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE / 도구
+.vscode/
+.vscode-server
+.idea/
+.c*
+.windsurf-server
