@@ -1,0 +1,92 @@
+[
+  {
+    "batch_size": 1,
+    "prompt_len": 128,
+    "ttft_ms": 714.6,
+    "inter_token_ms": 65.52,
+    "tokens_per_sec": 15.3,
+    "peak_vram_mb": 5460.0,
+    "decode_p50_ms": 65.52,
+    "decode_p95_ms": 90.56
+  },
+  {
+    "batch_size": 1,
+    "prompt_len": 512,
+    "ttft_ms": 2549.1,
+    "inter_token_ms": 70.59,
+    "tokens_per_sec": 14.2,
+    "peak_vram_mb": 5521.0,
+    "decode_p50_ms": 70.6,
+    "decode_p95_ms": 97.88
+  },
+  {
+    "batch_size": 1,
+    "prompt_len": 1024,
+    "ttft_ms": 5106.4,
+    "inter_token_ms": 76.11,
+    "tokens_per_sec": 13.1,
+    "peak_vram_mb": 5823.0,
+    "decode_p50_ms": 76.11,
+    "decode_p95_ms": 92.46
+  },
+  {
+    "batch_size": 4,
+    "prompt_len": 128,
+    "ttft_ms": 2543.1,
+    "inter_token_ms": 446.03,
+    "tokens_per_sec": 9.0,
+    "peak_vram_mb": 5622.0,
+    "decode_p50_ms": 446.03,
+    "decode_p95_ms": 449.61
+  },
+  {
+    "batch_size": 4,
+    "prompt_len": 512,
+    "ttft_ms": 10047.5,
+    "inter_token_ms": 467.11,
+    "tokens_per_sec": 8.6,
+    "peak_vram_mb": 6156.0,
+    "decode_p50_ms": 467.11,
+    "decode_p95_ms": 470.55
+  },
+  {
+    "batch_size": 4,
+    "prompt_len": 1024,
+    "ttft_ms": 20643.2,
+    "inter_token_ms": 492.53,
+    "tokens_per_sec": 8.1,
+    "peak_vram_mb": 7348.0,
+    "decode_p50_ms": 492.53,
+    "decode_p95_ms": 495.99
+  },
+  {
+    "batch_size": 8,
+    "prompt_len": 128,
+    "ttft_ms": 5093.9,
+    "inter_token_ms": 464.26,
+    "tokens_per_sec": 17.2,
+    "peak_vram_mb": 5800.0,
+    "decode_p50_ms": 464.03,
+    "decode_p95_ms": 466.46
+  },
+  {
+    "batch_size": 8,
+    "prompt_len": 512,
+    "ttft_ms": 20355.9,
+    "inter_token_ms": 499.72,
+    "tokens_per_sec": 16.0,
+    "peak_vram_mb": 6909.0,
+    "decode_p50_ms": 499.69,
+    "decode_p95_ms": 503.35
+  },
+  {
+    "batch_size": 8,
+    "prompt_len": 1024,
+    "ttft_ms": 41621.0,
+    "inter_token_ms": 547.98,
+    "tokens_per_sec": 14.6,
+    "peak_vram_mb": 9380.0,
+    "decode_p50_ms": 547.98,
+    "decode_p95_ms": 552.93
+  }
+]
