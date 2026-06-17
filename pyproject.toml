@@ -20,6 +20,7 @@ dependencies = [
     "fastapi>=0.115",
     "uvicorn[standard]>=0.32",
     "httpx>=0.28",
+    "prometheus-fastapi-instrumentator>=7.0.0,<8.0.0",
 ]
 
 [[tool.uv.index]]

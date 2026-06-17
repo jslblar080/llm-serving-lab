@@ -45,6 +45,7 @@ VLLM_CMD = [
     "--max-num-seqs", "256",
     "--enable-prefix-caching",
 ]
+VLLM_ENV = {**os.environ, "VLLM_ATTENTION_BACKEND": "XFORMERS"}
 
 HF_CMD = [sys.executable, "serve_hf.py", "--port", str(HF_PORT)]
 
@@ -71,11 +72,12 @@ PROMPTS = [
 # ── 서버 관리 ──────────────────────────────────────────────────────────────
 
 class ManagedServer:
-    def __init__(self, name: str, cmd: list[str], health_url: str, log_path: Path):
+    def __init__(self, name: str, cmd: list[str], health_url: str, log_path: Path, env: dict | None = None):
         self.name = name
         self.cmd = cmd
         self.health_url = health_url
         self.log_path = log_path
+        self.env = env
         self._proc: subprocess.Popen | None = None
         self._log_fh = None
 
@@ -88,6 +90,7 @@ class ManagedServer:
             stdout=self._log_fh,
             stderr=self._log_fh,
             preexec_fn=os.setsid,
+            env=self.env,
         )
         deadline = time.time() + timeout
         while time.time() < deadline:
@@ -137,7 +140,7 @@ async def _single(client: httpx.AsyncClient, url: str, prompt: str) -> dict:
             "temperature": 0,
             "stream": True,
         },
-        timeout=180.0,
+        timeout=360.0,
     ) as resp:
         resp.raise_for_status()
         async for line in resp.aiter_lines():
@@ -171,8 +174,16 @@ async def _run_concurrency(url: str, concurrency: int) -> dict:
     prompts = (PROMPTS * ((concurrency // len(PROMPTS)) + 1))[:concurrency]
     async with httpx.AsyncClient() as client:
         t_wall = time.perf_counter()
-        rows = await asyncio.gather(*[_single(client, url, p) for p in prompts])
+        results = await asyncio.gather(
+            *[_single(client, url, p) for p in prompts],
+            return_exceptions=True,
+        )
         wall = time.perf_counter() - t_wall
+    rows = [r for r in results if isinstance(r, dict)]
+    if not rows:
+        raise RuntimeError(f"모든 요청 실패 (concurrency={concurrency})")
+    if len(rows) < concurrency:
+        print(f"    ({len(rows)}/{concurrency} 성공)", end=" ")
 
     ttfts = sorted(r["ttft"] for r in rows)
     latencies = [r["latency"] for r in rows]
@@ -243,6 +254,7 @@ async def main() -> None:
         cmd=VLLM_CMD,
         health_url=f"http://localhost:{VLLM_PORT}/health",
         log_path=logs / "stage2_vllm_server.log",
+        env=VLLM_ENV,
     )
     hf_server = ManagedServer(
         name="HF",
@@ -256,7 +268,7 @@ async def main() -> None:
 
     try:
         # ① vLLM — 먼저 실행하고 측정 후 종료
-        vllm_server.start(timeout=200)
+        vllm_server.start(timeout=300)
         vllm_rows = await benchmark("vLLM", f"http://localhost:{VLLM_PORT}/v1/completions")
         vllm_server.stop()
 
