@@ -181,7 +181,7 @@ def main():
 
     # 완료 기준 체크: compute vs memory bound 판단
     print("\n=== Roofline 분석 ===")
-    print("T4 이론 decode 하한(NF4 7B, batch=1): ~11.7ms/token  (3.5GB / 300GB/s)")
+    print("L4 이론 decode 하한(NF4 7B, batch=1): ~11.7ms/token  (3.5GB / 300GB/s)")
     b1 = [r for r in results if r["batch_size"] == 1]
     if b1:
         avg_decode = statistics.mean(r["inter_token_ms"] for r in b1)
