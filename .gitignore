@@ -1,6 +1,15 @@
 # 로컬 전용 (공개 금지)
 miscellaneous/
 
+# 서버 로그
+results/*.log
+
+# Lightning Studio 시스템 파일
+.humming/
+.lightning_studio/
+.tmux.conf
+.triton/
+
 # Python
 __pycache__/
 *.py[cod]
